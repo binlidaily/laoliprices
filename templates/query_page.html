@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charse="utf-8">
+        <link rel="stylesheet" type="text/css" href="./homepage_style.css">
+        <title>北京海宏达装饰工程有限公司</title>
+        <style type="text/css">
+            table {
+                /*为表格设置合并边框模型*/
+                border-collapse: collapse;
+                /*列宽由表格宽度和列宽度设定*/
+                table-layout: fixed;
+            }
+
+            td {
+                border: 1px solid #ddd;
+                /*允许在单词内换行。*/
+                word-break: break-word;
+                /*设置宽度*/
+                width: 100px;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 class="title">北京海宏达装饰工程有限公司</h1>
+        <table class="main_frame">
+            <tr>
+{#                <td>#}
+                    <div class="tool_menu" id="lmenu">
+                        <form action="/query/" method="get" >
+                            {% csrf_token %}
+                            品名：<input type="text" name="item_name">
+                            规格：<input type="text" name="item_desc">
+                            单位：<input type="text" name="item_unit">
+                            单价：<input type="text" name="item_price">
+                            <input type="submit" value="查询" name="add">
+                            <a href="/home/">添加</a>
+{#                            <input type="submit" value="查询" name="query">#}
+                        </form>
+                    </div>
+{#                </td>#}
+            </tr>
+        </table>
+
+        <br/><br/>
+
+        <table border="1">
+        <tr>
+            <th>编号</th>
+            <th>品名</th>
+            <th>规格</th>
+            <th>数量</th>
+            <th>单位</th>
+            <th>单价</th>
+            <th>金额</th>
+            <th>备考</th>
+        </tr>
+
+        {% for post in post_list %}
+          <tr>
+            <td> {{ post.product_id }} </td>
+            <td> {{ post.product_title }} </td>
+            <td> {{ post.product_spec }} </td>
+            <td> {{ post.quantity }} </td>
+            <td> {{ post.unit }} </td>
+            <td> {{ post.unit_price }} </td>
+            <td> {{ post.total_price }} </td>
+            <td> {{ post.remarks }} </td>
+          </tr>
+        {% empty %}
+          <div class="no-post">
+            没有搜索到符合条件的记录
+          </div>
+        {% endfor %}
+
+        {% if error_msg %}
+            <p>{{ error_msg }}</p>
+        {% endif %}
+
+
+        </table>
+
+    </body>
+</html>

@@ -1,0 +1,5 @@
+[client]
+database = laoliprices
+user = root
+password = Bin123456!
+default-character-set = utf8

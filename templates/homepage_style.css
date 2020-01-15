@@ -1,0 +1,42 @@
+h1.title
+{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 200%;
+    text-align: center;
+}
+
+.main_frame
+{
+    border-style: solid;
+    border-width: thick;
+    width: 1500px;
+    height: auto;
+    margin: auto;
+}
+
+.main_frame div
+{
+    border-style: solid;
+    border-width: thin;
+    height: auto;
+    text-align: center;
+}
+
+.main_frame td{
+    width: 700px;
+}
+
+.main_frame form
+{
+    height: auto;
+}
+
+input[type=text]
+{
+    width: 90px;
+}
+
+div.item_list
+{
+    height: 550px;
+}
