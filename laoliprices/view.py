@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from laoliprices.models import ProductPrices
+from laoliprices.models import product_price
 from django.http import HttpResponseRedirect
 
 # def hello(request):
@@ -7,15 +7,14 @@ from django.http import HttpResponseRedirect
 
 def homepage(request):
     return render(request, 'homepage.html')
-
+    
 def add_record(request):
     if request.method == 'POST':
-        product_title = request.POST.get('item_name')
-        product_spec = request.POST.get('item_desc')
-        # quantity = request.POST.get('item_quantity')
-        quantity = 1
-        unit = request.POST.get('item_unit')
-        unit_price = request.POST.get('item_price')
+        product_title = request.POST['item_name']
+        product_spec = request.POST['item_desc']
+        quantity = request.POST['item_quantity']
+        unit = request.POST['item_unit']
+        unit_price = request.POST['item_price']
 
         which = ''
         if not product_title:
@@ -23,8 +22,8 @@ def add_record(request):
         if not unit_price:
             which += ' ' + '单价'
 
-        any = product_title and unit_price
-        if not any:
+        any_product = product_title and unit_price
+        if not any_product:
             error_msg = which + ' 不能为空'
             return render(request, 'homepage.html', {'error_msg': error_msg})
 
@@ -33,17 +32,15 @@ def add_record(request):
         else:
             total_price = 0
 
-        if 'add' in request.POST:
-            product_price = ProductPrices()
+        p = product_price()
+        p.product_title = product_title
+        p.product_spec = product_spec
+        p.quantity = quantity
+        p.unit = unit
+        p.unit_price = unit_price
+        p.total_price = total_price
 
-            product_price.product_title = product_title
-            product_price.product_spec = product_spec
-            product_price.quantity = quantity
-            product_price.unit = unit
-            product_price.unit_price = unit_price
-            product_price.total_price = total_price
-
-            product_price.save()
+        p.save()
     print('******************here')
     return render(request, 'homepage.html')
 
@@ -61,16 +58,16 @@ def query_record(request):
     print('******************here')
     error_msg = ''
 
-    any = product_title or product_spec or unit or unit_price
-    if not any:
+    any_product = product_title or product_spec or unit or unit_price
+    if not any_product:
         error_msg = '请输入关键词'
         return render(request, 'query_page.html', {'error_msg': error_msg})
 
-    # post_list = ProductPrices.objects.filter(product_title=product_title,
+    # post_list = product_price.objects.filter(product_title=product_title,
     #                                          product_spec=product_spec,
     #                                          unit=unit,
     #                                          unit_price=unit_price)
-    post_list = ProductPrices.objects.filter(product_title__icontains=product_title)
+    post_list = product_price.objects.filter(product_title__icontains=product_title)
 
     return render(request, 'query_page.html', {'error_msg': error_msg,
                                                  'post_list': post_list})
